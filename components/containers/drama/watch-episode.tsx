@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 
 const WatchEpisodes = ({ data, id }: any) => {
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto flex">
-        <div className="flex flex-wrap gap-2 items-center">
+    <div className="h-[40rem] rounded-md border">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="relative flex flex-col rounded p-4">
           {data &&
             data.map((episodes: any) => (
               <Link
