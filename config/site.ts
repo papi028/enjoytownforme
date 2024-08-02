@@ -1,9 +1,9 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "CineHub",
+  name: "EnjoyTown",
   description:
-    "best website where you can watch anime, drama, movies and read mangas for free. Built with Next.JS and shadcn/ui.",
+    "Beautifully Designed website where you can watch anime, drama, movies and read mangas for free. Built with Next.JS and shadcn/ui.",
   mainNav: [
     {
       title: "Drama",
