@@ -1,6 +1,13 @@
 "use client";
 import { useState } from "react";
 import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -8,36 +15,22 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
+import Link from 'next/link'
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Download } from "lucide-react";
 
-type VideoSourceKey =
-  | "kushi"
-  | "vidsrc"
-  | "vidsrcicu"
-  | "vidsrcpro"
-  | "vidsrcin"
-  | "superembed";
+type VideoSourceKey = "autoembed" | "vidsrcpro" | "vidsrc" | "superembed";
 
 export default function VideoPlayer({ id }: any) {
   const [selectedSource, setSelectedSource] =
-    useState<VideoSourceKey>("kushi");
+    useState<VideoSourceKey>("autoembed");
   const [loading, setLoading] = useState(false);
 
   const videoSources: Record<VideoSourceKey, string> = {
-    kushi: `https://9streams.xyz/hindi-embed?movie=${id}&watermark=EnjoyTown`,
-    vidsrc: `https://vidsrc.vip/embed/movie/${id}`,
-    vidsrcicu: `https://vidsrc.icu/embed/movie/${id}`,
+    autoembed: `https://player.autoembed.cc/embed/movie/${id}`,
     vidsrcpro: `https://vidsrc.pro/embed/movie/${id}`,
-    vidsrcin: `https://vidsrc.in/embed/movie/${id}`,
+    vidsrc: `https://vidsrc.in/embed/movie/${id}`,
     superembed: `https://multiembed.mov/?video_id=${id}&tmdb=1`,
   };
 
@@ -57,7 +50,7 @@ export default function VideoPlayer({ id }: any) {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink href={`/movie/${id}`}>
-                  {id.charAt(0).toUpperCase() + id.slice(1)}
+                Movie -  {id.charAt(0).toUpperCase() + id.slice(1)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -68,8 +61,34 @@ export default function VideoPlayer({ id }: any) {
           </Breadcrumb>
         </div>
       </div>
+      <div className="flex flex-row items-center justify-center w-full">
+        <div className="flex flex-col text-center">
+          <Select onValueChange={handleSelectChange} value={selectedSource}>
+            <SelectTrigger className="px-4 py-2 rounded-md w-[280px]">
+              <SelectValue placeholder="Select Video Source" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="autoembed">AutoEmbed</SelectItem>
+              <SelectItem value="vidsrcpro">VidSrc.pro</SelectItem>
+              <SelectItem value="vidsrc">VidSrc</SelectItem>
+              <SelectItem value="superembed">SuperEmbed</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="pt-2">
+            <Link href={`https://dl.vidsrc.vip/movie/${id}`}>
+              <Badge
+                variant="outline"
+                className="cursor-pointer whitespace-nowrap"
+              >
+                <Download className="mr-1.5" size={12} />
+                Download Movie
+              </Badge>
+            </Link>
+          </div>
+        </div>
+      </div>
       {loading ? (
-        <Skeleton className="mx-auto px-4 pt-10 w-full h-[500px]" />
+        <Skeleton className="mx-auto px-4 pt-6 w-full h-[500px]" />
       ) : (
         <iframe
           src={videoSources[selectedSource]}
@@ -78,31 +97,9 @@ export default function VideoPlayer({ id }: any) {
           width="100%"
           height="450"
           scrolling="no"
-          className="max-w-3xl mx-auto px-4 pt-10"
+          className="max-w-3xl mx-auto px-4 pt-6"
         />
       )}
-      <div className="py-8 flex flex-row items-center justify-between w-full">
-        <div className="flex flex-col text-left">
-          <Select onValueChange={handleSelectChange} value={selectedSource}>
-            <SelectTrigger className="px-4 py-2 rounded-md w-[180px]">
-              <SelectValue placeholder="Select Video Source" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="kushi">Kushi</SelectItem>
-              <SelectItem value="vidsrc">VidSrc</SelectItem>
-              <SelectItem value="vidsrcicu">VidSrc.icu</SelectItem>
-              <SelectItem value="vidsrcpro">Vidsrc.pro</SelectItem>
-              <SelectItem value="vidsrcin">Vid.In</SelectItem>
-              <SelectItem value="superembed">SuperEmbed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="ml-auto">
-          <Link href={`https://dl.vidsrc.vip/movie/${id}`}>
-            <Button>Download Movie</Button>
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

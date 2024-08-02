@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { Poster } from "@/components/common/poster";
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { Download, Play } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import {
